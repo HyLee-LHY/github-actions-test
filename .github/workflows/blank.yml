@@ -43,7 +43,7 @@ jobs:
       - name: list cmdline-tools directory
         run: ls -alh cmdline-tools
       - name: set SDK_DIR env
-        run: export SDK_DIR=$(pwd)/cmdline-tools
+        run: export SDK_DIR=$(pwd)
       - name: install android-27
         run: $SDK_DIR/tools/bin/sdkmanager "platforms;android-27"
       - name: install build tools 28.0.2
