@@ -33,11 +33,11 @@ jobs:
       - name: setup python for android
         run: pip install python-for-android
       - name: download android sdk command line tools
-        run: wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip -o commandlinetools.zip
+        run: wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip 
       - name: list directory
         run: ls -alh
       - name: unzip command line tools
-        run: unzip commandlinetools.zip 
+        run: unzip commandlinetools-linux-8512546_latest.zip
       - name: list directory
         run: ls -alh
       - name: install dependencies
