@@ -13,9 +13,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  PYTHON_FOR_ANDROID_BUNDLE_PATH: ~/.local/share/python-for-android/
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -70,16 +67,16 @@ jobs:
       - name: build python
         run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
       - name: list python bundle
-        run: ls -alh ${PYTHON_FOR_ANDROID_BUNDLE_PATH}
+        run: ls -alh ~/.local/share/python-for-android/
       - name: zip python bundle
         run: |
-            tar -cvf ${PYTHON_FOR_ANDROID_BUNDLE_PATH}/python-bundle-${{ matrix.arch }}.tar ${PYTHON_FOR_ANDROID_BUNDLE_PATH}
-            gzip ${PYTHON_FOR_ANDROID_BUNDLE_PATH}/python-bundle-${{ matrix.arch }}.tar
+            tar -cvf /tmp/python-bundle-${{ matrix.arch }}.tar ~/.local/share/python-for-android/
+            gzip /tmp/python-bundle-${{ matrix.arch }}.tar
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: python-${{ matrix.arch }}
-          path: ${PYTHON_FOR_ANDROID_BUNDLE_PATH}/python-bundle-${{ matrix.arch }}.tar.gz # or path/to/artifact
+          name: python-bundle-${{ matrix.arch }}
+          path: /tmp/python-bundle-${{ matrix.arch }}.tar.gz # or path/to/artifact
         
       
       
