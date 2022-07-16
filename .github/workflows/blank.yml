@@ -39,13 +39,13 @@ jobs:
       - name: list sdk directory
         run: ls -alh sdk
       - name: install android-27
-        run: sdk/cmdline-tools/bin/sdkmanager "platforms;android-27" --sdk_root=$(pwd)/sdk
+        run: sdk/cmdline-tools/bin/sdkmanager "platforms;android-27" --sdk_root=$(pwd)/sdk -y
       - name: install build tools 28.0.2
-        run: sdk/cmdline-tools/bin/sdkmanager "build-tools;28.0.2" --sdk_root=$(pwd)/sdk
+        run: sdk/cmdline-tools/bin/sdkmanager "build-tools;28.0.2" --sdk_root=$(pwd)/sdk -y
+      - name: install ndk
+        run: sdk/cmdline-tools/bin/sdkmanager "ndk;19.2.5345600" --sdk_root=$(pwd)/sdk -y
       - name: list sdk directory
         run: ls -alh sdk/cmdline-tools
-      - name: install ndk
-        run: sdk/cmdline-tools/bin/sdkmanager "ndk;19.2.5345600" --sdk_root=$(pwd)/sdk
       - name: sdk manager 
         run: sdk/cmdline-tools/bin/sdkmanager --list --sdk_root=$(pwd)/sdk
       - name: setup python
