@@ -70,13 +70,20 @@ jobs:
         run: ls -alh ~/.local/share/python-for-android/
       - name: zip python bundle
         run: |
-            tar -cvf /tmp/python-bundle-${{ matrix.arch }}.tar ~/.local/share/python-for-android/
-            gzip /tmp/python-bundle-${{ matrix.arch }}.tar
-      - name: upload artifact
+            tar -cvf /tmp/python-bundle-full-${{ matrix.arch }}.tar ~/.local/share/python-for-android/
+            gzip /tmp/python-bundle-full-${{ matrix.arch }}.tar
+            tar -cvf /tmp/python-bundle-lite-${{ matrix.arch }}.tar ~/.local/share/python-for-android/dist/unnamed_dist_1/_python_bundle_${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}_ndk_target_21/python3/include/ ~/.local/share/python-for-android/dist/unnamed_dist_1/_python_bundle_${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}_ndk_target_21/python3/android_build/libpython*.so ~/.local/share/python-for-android/dist/unnamed_dist_1/_python_bundle_${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}_ndk_target_21/python3/android_build/pyconfig.h
+            gzip /tmp/python-bundle-lit-${{ matrix.arch }}.tar
+      - name: upload full python bundle
         uses: actions/upload-artifact@v3
         with:
-          name: python-bundle-${{ matrix.arch }}
-          path: /tmp/python-bundle-${{ matrix.arch }}.tar.gz # or path/to/artifact
+          name: python-bundle-full-${{ matrix.arch }}
+          path: /tmp/python-bundle-full-${{ matrix.arch }}.tar.gz # or path/to/artifact
+      - name: upload lite python bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-bundle-lite-${{ matrix.arch }}
+          path: /tmp/python-bundle-lite-${{ matrix.arch }}.tar.gz # or path/to/artifact
         
       
       
