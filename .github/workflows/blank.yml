@@ -76,6 +76,15 @@ jobs:
         run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
       - name: list python bundle
         run: ls -alh ~/.local/share/python-for-android/
+      - name: zip python lite bundle
+        run: |
+            tar -zcvf /tmp/python-bundle-lite-${{ matrix.arch }}.tar ~/.local/share/python-for-android/dists/unnamed_dist_1/_python_bundle__${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/include/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/libpython*.so ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/pyconfig.h > /dev/null
+            gzip /tmp/python-bundle-lite-${{ matrix.arch }}.tar
+      - name: upload lite python bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-bundle-lite-${{ matrix.arch }}
+          path: /tmp/python-bundle-lite-${{ matrix.arch }}.tar.gz # or path/to/artifact
       - name: zip python full bundle
         run: |
             tar -cvf /tmp/python-bundle-full-${{ matrix.arch }}.tar ~/.local/share/python-for-android/
@@ -86,15 +95,3 @@ jobs:
         with:
           name: python-bundle-full-${{ matrix.arch }}
           path: /tmp/python-bundle-full-${{ matrix.arch }}.tar.gz # or path/to/artifact
-      - name: zip python lite bundle
-        run: |
-            tar -cvf /tmp/python-bundle-lite-${{ matrix.arch }}.tar ~/.local/share/python-for-android/dists/unnamed_dist_1/_python_bundle__${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/include/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/libpython*.so ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/pyconfig.h
-            gzip /tmp/python-bundle-lite-${{ matrix.arch }}.tar
-      - name: upload lite python bundle
-        uses: actions/upload-artifact@v3
-        with:
-          name: python-bundle-lite-${{ matrix.arch }}
-          path: /tmp/python-bundle-lite-${{ matrix.arch }}.tar.gz # or path/to/artifact
- 
-    
-      
