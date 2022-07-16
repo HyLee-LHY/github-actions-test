@@ -39,7 +39,7 @@ jobs:
       - name: list sdk directory
         run: ls -alh sdk
       - name: set SDK_DIR env
-        run: export SDK_DIR=$(pwd)/cmd
+        run: echo $(pwd)/sdk && export SDK_DIR=$(pwd)/sdk
       - name: check SDK_DIR
         run: echo $SDK_DIR
       - name: install android-27
