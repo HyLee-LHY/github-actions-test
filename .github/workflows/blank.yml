@@ -24,7 +24,28 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
+      - name: download android sdk command line tools
+        run: wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip 
+      - name: make android sdk directory
+        run: mkdir sdk
+      - name: list directory
+        run: ls -alh
+      - name: unzip command line tools
+        run: unzip commandlinetools-linux-8512546_latest.zip
+      - name: list cmdline-tools directory
+        run: ls -alh cmdline-tools
+      - name: move cmdline-tools to sdk
+        run: mv cmdline-tools sdk/
+      - name: list sdk directory
+        run: ls -alh sdk
+      - name: set SDK_DIR env
+        run: export SDK_DIR=$(pwd)/cmd
+      - name: check SDK_DIR
+        run: echo $SDK_DIR
+      - name: install android-27
+        run: ${SDK_DIR}/cmdline-tools/bin/sdkmanager "platforms;android-27"
+      - name: install build tools 28.0.2
+        run: ${SDK_DIR}/cmdline-tools/bin/sdkmanager "build-tools;28.0.2"
       - name: setup python
         uses: actions/setup-python@v4
         with:
@@ -32,20 +53,10 @@ jobs:
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
       - name: setup python for android
         run: pip install python-for-android
+      
       - name: install dependencies
         run: sudo apt-get install -y build-essential ccache git zlib1g-dev python3 python3-dev libncurses5 libstdc++6 zlib1g openjdk-8-jdk unzip ant ccache autoconf libtool libssl-dev
-      - name: download android sdk command line tools
-        run: wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip 
-      - name: list directory
-        run: ls -alh
-      - name: unzip command line tools
-        run: unzip commandlinetools-linux-8512546_latest.zip
-      - name: list cmdline-tools directory
-        run: ls -alh cmdline-tools
-      - name: install android-27
-        run: cmdline-tools/bin/sdkmanager "platforms;android-27"
-      - name: install build tools 28.0.2
-        run: cmdline-tools/bin/sdkmanager "build-tools;28.0.2"
+
         
       
       
