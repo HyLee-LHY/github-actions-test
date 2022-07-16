@@ -65,7 +65,7 @@ jobs:
       - name: install dependencies
         run: sudo apt-get install -y build-essential ccache git zlib1g-dev libncurses5 libstdc++6 zlib1g unzip ant ccache autoconf libtool libssl-dev
       - name: build python
-        run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk --android-api 27 --ndk-api 21 --ndk-version r10e
+        run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
       - name: list python bundle
         run: ls -alh ~/.local/share/python-for-android/
         
