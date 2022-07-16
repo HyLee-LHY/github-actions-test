@@ -13,6 +13,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  PYTHON_FOR_ANDROID_BUNDLE_PATH: ~/.local/share/python-for-android/
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -70,13 +73,13 @@ jobs:
         run: ls -alh ~/.local/share/python-for-android/
       - name: zip python bundle
         run: |
-            tar -cvf python-bundle-${{ matrix.arch }}.tar ~/.local/share/python-for-android/
-            gzip python-bundle-${{ matrix.arch }}.tar
+            tar -cvf ${PYTHON_FOR_ANDROID_BUNDLE_PATH}/python-bundle-${{ matrix.arch }}.tar ${PYTHON_FOR_ANDROID_BUNDLE_PATH}
+            gzip ${PYTHON_FOR_ANDROID_BUNDLE_PATH}/python-bundle-${{ matrix.arch }}.tar
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: python-${{ matrix.arch }}
-          path: $(pwd)/python-bundle-${{ matrix.arch }}.tar.gz # or path/to/artifact
+          path: ${PYTHON_FOR_ANDROID_BUNDLE_PATH}/python-bundle-${{ matrix.arch }}.tar.gz # or path/to/artifact
         
       
       
