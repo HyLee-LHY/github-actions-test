@@ -45,7 +45,7 @@ jobs:
       - name: list sdk directory
         run: ls -alh sdk
       - name: sdk manager 
-        run: sdk/cmdline-tools/bin/sdkmanager --list
+        run: sdk/cmdline-tools/bin/sdkmanager --list --sdk_root=$(pwd)/sdk
       - name: setup python
         uses: actions/setup-python@v4
         with:
