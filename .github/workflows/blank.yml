@@ -38,14 +38,10 @@ jobs:
         run: mv cmdline-tools sdk/
       - name: list sdk directory
         run: ls -alh sdk
-      - name: set SDK_DIR env
-        run: echo $(pwd)/sdk && export SDK_DIR=$(pwd)/sdk
-      - name: check SDK_DIR
-        run: echo $SDK_DIR
       - name: install android-27
-        run: ${SDK_DIR}/cmdline-tools/bin/sdkmanager "platforms;android-27"
+        run: sdk/cmdline-tools/bin/sdkmanager "platforms;android-27"
       - name: install build tools 28.0.2
-        run: ${SDK_DIR}/cmdline-tools/bin/sdkmanager "build-tools;28.0.2"
+        run: sdk/cmdline-tools/bin/sdkmanager "build-tools;28.0.2"
       - name: setup python
         uses: actions/setup-python@v4
         with:
