@@ -68,11 +68,15 @@ jobs:
         run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
       - name: list python bundle
         run: ls -alh ~/.local/share/python-for-android/
+      - name: zip python bundle
+        run: |
+            tar -cvf python-bundle-${{ matrix.arch }}.tar ~/.local/share/python-for-android/
+            gzip python-bundle-${{ matrix.arch }}.tar
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: python-${{ matrix.arch }}
-          path: ~/.local/share/python-for-android/ # or path/to/artifact
+          path: $(pwd)/python-bundle-${{ matrix.arch }}.tar.gz # or path/to/artifact
         
       
       
