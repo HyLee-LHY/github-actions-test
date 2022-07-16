@@ -45,7 +45,7 @@ jobs:
       - name: install ndk
         run: echo y | sdk/cmdline-tools/bin/sdkmanager "ndk;19.2.5345600" --sdk_root=$(pwd)/sdk 
       - name: list sdk directory
-        run: ls -alh sdk/cmdline-tools
+        run: ls -alh sdk
       - name: sdk manager 
         run: sdk/cmdline-tools/bin/sdkmanager --list --sdk_root=$(pwd)/sdk
       - name: setup python
