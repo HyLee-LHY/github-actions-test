@@ -80,7 +80,7 @@ jobs:
           path: /tmp/python-bundle-full-${{ matrix.arch }}.tar.gz # or path/to/artifact
       - name: zip python lite bundle
         run: |
-            tar -cvf /tmp/python-bundle-lite-${{ matrix.arch }}.tar ~/.local/share/python-for-android/dist/unnamed_dist_1/_python_bundle__${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/libpython*.so ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/pyconfig.h
+            tar -cvf /tmp/python-bundle-lite-${{ matrix.arch }}.tar ~/.local/share/python-for-android/dists/unnamed_dist_1/_python_bundle__${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/libpython*.so ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/pyconfig.h
             gzip /tmp/python-bundle-lite-${{ matrix.arch }}.tar
       - name: upload lite python bundle
         uses: actions/upload-artifact@v3
