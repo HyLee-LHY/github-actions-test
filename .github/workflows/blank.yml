@@ -30,13 +30,21 @@ jobs:
       - name: Create new tag
         id: get_tag
         run: |
-          new_tag="tag-$(date "+%Y.%m.%d")"
+          new_tag="tag-$(date '+%Y-%m-%d %H:%M')"
           echo "::set-output name=tag_name::$new_tag"
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.get_tag.outputs.tag_name }}
           files: |
+            /tmp/python-bundle-full-arm64-v8a
+            /tmp/python-bundle-full-armeabi-v7a
+            /tmp/python-bundle-full-x86
+            /tmp/python-bundle-full-x86_64
+            /tmp/python-bundle-lite-arm64-v8a
+            /tmp/python-bundle-lite-armeabi-v7a
+            /tmp/python-bundle-lite-x86
+            /tmp/python-bundle-lite-x86_64
             /tmp/python-bundle-full-arm64-v8a.tar.gz
             /tmp/python-bundle-full-armeabi-v7a.tar.gz
             /tmp/python-bundle-full-x86.tar.gz
