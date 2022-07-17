@@ -117,6 +117,8 @@ jobs:
           java-version: '8'
       - name: install dependencies
         run: sudo apt-get install -y build-essential ccache git zlib1g-dev libncurses5 libstdc++6 zlib1g unzip ant ccache autoconf libtool libssl-dev
+      - name: add main.py file
+        run: echo "print(123);" > ./main.py
       - name: build apk 
         run: p4a apk --requirements=python3 --blacklist-requirements=sqlite3,android --private $(pwd) --package=net.inclem.planewavessdl2 --name="planewavessdl2" --version=0.5 --bootstrap=sdl2 --minsdk 21 --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
       - name: list current directory
