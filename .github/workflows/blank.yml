@@ -22,29 +22,38 @@ jobs:
       - uses: actions/checkout@v2
       - name: Download artifacts
         uses: actions/download-artifact@v3
-        with:
-          path: /tmp/
+#         with:
+#           path: /tmp/
 #       - name: Display structure of downloaded files
 #         run: ls -R
 #         working-directory: /tmp/
       - name: Create new tag
         id: get_tag
         run: |
-          new_tag="tag-$(date '+%Y-%m-%d %H:%M')"
+          new_tag="bootstrap-$(date "+%Y.%m.%d")"
+          existing_tag_revision=$(git tag | grep "$new_tag" | sort -r | head -n 1 | cut -d- -f3 | cut -dr -f2)
+          if [ -n "$existing_tag_revision" ]; then
+            tag_rev=$((existing_tag_revision + 1))
+          else
+            tag_rev=1
+          fi
+          new_tag="${new_tag}-r${tag_rev}+apt-android-7"
+          git tag "$new_tag"
+          git push --tags
           echo "::set-output name=tag_name::$new_tag"
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.get_tag.outputs.tag_name }}
           files: |
-            /tmp/python-bundle-full-arm64-v8a
-            /tmp/python-bundle-full-armeabi-v7a
-            /tmp/python-bundle-full-x86
-            /tmp/python-bundle-full-x86_64
-            /tmp/python-bundle-lite-arm64-v8a
-            /tmp/python-bundle-lite-armeabi-v7a
-            /tmp/python-bundle-lite-x86
-            /tmp/python-bundle-lite-x86_64
+            python-bundle-full-arm64-v8a
+            python-bundle-full-armeabi-v7a
+            python-bundle-full-x86
+            python-bundle-full-x86_64
+            python-bundle-lite-arm64-v8a
+            python-bundle-lite-armeabi-v7a
+            python-bundle-lite-x86
+            python-bundle-lite-x86_64
             /tmp/python-bundle-full-arm64-v8a.tar.gz
             /tmp/python-bundle-full-armeabi-v7a.tar.gz
             /tmp/python-bundle-full-x86.tar.gz
