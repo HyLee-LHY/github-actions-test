@@ -24,49 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-#       - name: Download artifacts
-#         uses: actions/download-artifact@v3
-#         with:
-#           path: /tmp/
-#       - name: Display structure of downloaded files
-#         run: ls -R
-#         working-directory: /tmp/
-#       - name: Create new tag
-#         id: get_tag
-#         run: |
-#           new_tag=${{ inputs.tag_name }}
-#           existing_tag_revision=$(git tag | grep "$new_tag" | sort -r | head -n 1 | cut -d- -f3 | cut -dr -f2)
-#           if [ -n "$existing_tag_revision" ]; then
-#             tag_rev=$((existing_tag_revision + 1))
-#           else
-#             tag_rev=1
-#           fi
-#           new_tag="${new_tag}-r${tag_rev}+apt-android-7"
-#           git tag "$new_tag"
-#           git push --tags
-#           echo "::set-output name=tag_name::$new_tag"
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ inputs.tag_name }}
-#           tag_name: ${{ steps.get_tag.outputs.tag_name }}
-#           files: |
-#             python-bundle-full-arm64-v8a
-#             python-bundle-full-armeabi-v7a
-#             python-bundle-full-x86
-#             python-bundle-full-x86_64
-#             python-bundle-lite-arm64-v8a
-#             python-bundle-lite-armeabi-v7a
-#             python-bundle-lite-x86
-#             python-bundle-lite-x86_64
-#             /tmp/python-bundle-full-arm64-v8a.tar.gz
-#             /tmp/python-bundle-full-armeabi-v7a.tar.gz
-#             /tmp/python-bundle-full-x86.tar.gz
-#             /tmp/python-bundle-full-x86_64.tar.gz
-#             /tmp/python-bundle-lite-arm64-v8a.tar.gz
-#             /tmp/python-bundle-lite-armeabi-v7a.tar.gz
-#             /tmp/python-bundle-lite-x86.tar.gz
-#             /tmp/python-bundle-lite-x86_64.tar.gz
+
   # This workflow contains a single job called "build"
   build:
     needs: [release]
@@ -119,50 +81,46 @@ jobs:
           java-version: '8'
       - name: install dependencies
         run: sudo apt-get install -y build-essential ccache git zlib1g-dev libncurses5 libstdc++6 zlib1g unzip ant ccache autoconf libtool libssl-dev
-#       - name: add main.py file
-#         run: echo "print(123);" > ./main.py
-      - name: build apk 
-        run: p4a apk --requirements=python3,kivy --blacklist-requirements=sqlite3,android --private $(pwd) --package=net.inclem.planewavessdl2 --name="planewavessdl2" --version=0.5 --bootstrap=sdl2 --minsdk 21 --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
       - name: list current directory
         run: ls -alh $(pwd)
       - name: tree python for android directory
         run: tree ~/.local/share/python-for-android/
-#       - name: build python
-#         run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
-#       - name: list python bundle
-#         run: ls -alh ~/.local/share/python-for-android/
-#       - name: zip python lite bundle
-#         run: |
-#             tar -zcvf /tmp/python-bundle-lite-${{ matrix.arch }}.tar ~/.local/share/python-for-android/dists/unnamed_dist_1/_python_bundle__${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/Include/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/libpython*.so ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/pyconfig.h > /dev/null
-#             gzip /tmp/python-bundle-lite-${{ matrix.arch }}.tar
+      - name: build python
+        run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
+      - name: list python bundle
+        run: ls -alh ~/.local/share/python-for-android/
+      - name: zip python lite bundle
+        run: |
+            tar -zcvf /tmp/python-bundle-lite-${{ matrix.arch }}.tar ~/.local/share/python-for-android/dists/unnamed_dist_1/_python_bundle__${{ matrix.arch }}/_python_bundle/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/Include/ ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/libpython*.so ~/.local/share/python-for-android/build/other_builds/python3/${{ matrix.arch }}__ndk_target_21/python3/android-build/pyconfig.h > /dev/null
+            gzip /tmp/python-bundle-lite-${{ matrix.arch }}.tar
             
-#       - name: upload lite python bundle assets     
-#         uses: softprops/action-gh-release@v1
-#         with:
-#           tag_name: ${{ inputs.tag_name }}
-#           files:
-#             /tmp/python-bundle-lite-${{ matrix.arch }}.tar.gz
+      - name: upload lite python bundle assets     
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.tag_name }}
+          files:
+            /tmp/python-bundle-lite-${{ matrix.arch }}.tar.gz
             
-#       - name: upload lite python bundle
-#         uses: actions/upload-artifact@v3
-#         with:
-#           name: python-bundle-lite-${{ matrix.arch }}
-#           path: /tmp/python-bundle-lite-${{ matrix.arch }}.tar.gz # or path/to/artifact
+      - name: upload lite python bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-bundle-lite-${{ matrix.arch }}
+          path: /tmp/python-bundle-lite-${{ matrix.arch }}.tar.gz # or path/to/artifact
 
-#       - name: zip python full bundle
-#         run: |
-#             tar -cvf /tmp/python-bundle-full-${{ matrix.arch }}.tar ~/.local/share/python-for-android/
-#             gzip /tmp/python-bundle-full-${{ matrix.arch }}.tar
+      - name: zip python full bundle
+        run: |
+            tar -cvf /tmp/python-bundle-full-${{ matrix.arch }}.tar ~/.local/share/python-for-android/
+            gzip /tmp/python-bundle-full-${{ matrix.arch }}.tar
             
-#       - name: upload full python bundle assets     
-#         uses: softprops/action-gh-release@v1
-#         with:
-#           tag_name: ${{ inputs.tag_name }}
-#           files:
-#             /tmp/python-bundle-full-${{ matrix.arch }}.tar.gz
+      - name: upload full python bundle assets     
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.tag_name }}
+          files:
+            /tmp/python-bundle-full-${{ matrix.arch }}.tar.gz
         
-#       - name: upload full python bundle
-#         uses: actions/upload-artifact@v3
-#         with:
-#           name: python-bundle-full-${{ matrix.arch }}
-#           path: /tmp/python-bundle-full-${{ matrix.arch }}.tar.gz # or path/to/artifact
+      - name: upload full python bundle
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-bundle-full-${{ matrix.arch }}
+          path: /tmp/python-bundle-full-${{ matrix.arch }}.tar.gz # or path/to/artifact
