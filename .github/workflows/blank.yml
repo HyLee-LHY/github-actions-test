@@ -63,24 +63,28 @@ jobs:
         run: echo y | sdk/cmdline-tools/bin/sdkmanager "ndk;19.2.5345600" --sdk_root=$(pwd)/sdk 
       - name: tree sdk directory
         run: tree sdk
-      - name: sdk manager 
+      - name: list sdk manager 
         run: sdk/cmdline-tools/bin/sdkmanager --list --sdk_root=$(pwd)/sdk
-      - name: setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11-dev' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      - name: install dependencies
+        run: | 
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y build-essential ccache git zlib1g-dev python3 python3-dev libncurses5:i386 libstdc++6:i386 zlib1g:i386 openjdk-8-jdk unzip ant ccache autoconf libtool libssl-dev
+#       - name: setup python
+#         uses: actions/setup-python@v4
+#         with:
+#           python-version: '3.11-dev' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+#           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
       - name: install cython
         run: pip3 install cython
       - name: setup python for android
         run: pip3 install --user python-for-android==2022.3.13
-      - name: setup java8
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
-          java-version: '8'
-      - name: install dependencies
-        run: sudo apt-get install -y build-essential ccache git zlib1g-dev libncurses5 libstdc++6 zlib1g unzip ant ccache autoconf libtool libssl-dev
+#       - name: setup java8
+#         uses: actions/setup-java@v3
+#         with:
+#           distribution: 'temurin' # See 'Supported distributions' for available options
+#           java-version: '8'
+      
       - name: list current directory
         run: ls -alh $(pwd)
       - name: tree python for android directory
