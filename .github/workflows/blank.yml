@@ -73,7 +73,7 @@ jobs:
       - name: install cython
         run: pip3 install cython
       - name: setup python for android
-        run: pip install python-for-android==2022.3.13
+        run: pip3 install --user python-for-android==2022.3.13
       - name: setup java8
         uses: actions/setup-java@v3
         with:
@@ -86,7 +86,7 @@ jobs:
       - name: tree python for android directory
         run: tree ~/.local/share/python-for-android/
       - name: build python
-        run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 --ndk-version r10e
+        run: p4a create --requirements=python3 --blacklist-requirements=sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 
       - name: list python bundle
         run: ls -alh ~/.local/share/python-for-android/
       - name: zip python lite bundle
