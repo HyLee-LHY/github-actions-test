@@ -80,7 +80,7 @@ jobs:
       - name: install cython
         run: pip3 install cython
       - name: setup python for android
-        run: pip3 install --user python-for-android==2022.3.13
+        run: pip3 install --user python-for-android
       - name: setup java8
         uses: actions/setup-java@v3
         with:
