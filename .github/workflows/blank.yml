@@ -89,8 +89,8 @@ jobs:
         run: ls -alh $(pwd)
       - name: list local share
         run: ls -alh ~/.local/share
-      - name: tree python for android directory
-        run: tree ~/.local/share/python-for-android/
+      #- name: tree python for android directory
+      #  run: tree ~/.local/share/python-for-android/
       - name: build python
         run: p4a create --requirements=python3,sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 
       - name: list python bundle
