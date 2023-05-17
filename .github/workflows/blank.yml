@@ -87,6 +87,8 @@ jobs:
       
       - name: list current directory
         run: ls -alh $(pwd)
+      - name: list local share
+        run: ls -alh ~/.local/share
       - name: tree python for android directory
         run: tree ~/.local/share/python-for-android/
       - name: build python
