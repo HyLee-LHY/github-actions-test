@@ -60,7 +60,7 @@ jobs:
       - name: install build tools 28.0.2
         run: echo y | sdk/cmdline-tools/bin/sdkmanager "build-tools;28.0.2" --sdk_root=$(pwd)/sdk 
       - name: install ndk
-        run: echo y | sdk/cmdline-tools/bin/sdkmanager "ndk;19.2.5345600" --sdk_root=$(pwd)/sdk 
+        run: echo y | sdk/cmdline-tools/bin/sdkmanager "ndk;25.2.9519653" --sdk_root=$(pwd)/sdk 
       - name: tree sdk directory
         run: tree sdk
       - name: list sdk manager 
