@@ -94,7 +94,7 @@ jobs:
       #- name: tree python for android directory
       #  run: tree ~/.local/share/python-for-android/
       - name: build python
-        run: p4a create --requirements=python3,sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/19.2.5345600 --android-api 27 --ndk-api 21 
+        run: p4a create --requirements=python3,sqlite3,android,libffi,openssl --arch ${{ matrix.arch }} --sdk-dir $(pwd)/sdk --ndk-dir $(pwd)/sdk/ndk/25.2.9519653 --android-api 27 --ndk-api 21 
       - name: list python bundle
         run: ls -alh ~/.local/share/python-for-android/
       - name: zip python lite bundle
